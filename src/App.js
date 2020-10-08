@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import TodoItem from './components/TodoItem'
+import TodoForm from './components/TodoForm'
 class App extends Component {
 
   state = {
@@ -11,11 +12,25 @@ class App extends Component {
     ]
   }
 
-  showTodos = () => this.state.todos.map(todo => <TodoItem key={todo.title} todo={todo}/>)
+  showTodos = () => this.state.todos.map(todo => <TodoItem deleteTodo={this.deleteTodo} key={todo.title} todo={todo}/>)
+
+  addTodo = todo => {
+    this.setState({
+      todos: [...this.state.todos, todo]
+    })
+  }
+
+  deleteTodo = (todo) => {
+    const todos = this.state.todos.filter(t => t !== todo )
+    this.setState({
+      todos: todos
+    })
+  }
 
   render(){
     return (
       <div className="App">
+      < TodoForm addTodo={this.addTodo}/>
       <ul>{this.showTodos()}</ul>      
       </div>
     );
